@@ -114,19 +114,6 @@ function SignIn() {
                 />
               </GradientBorder>
             </FormControl>
-            <FormControl display='flex' alignItems='center'>
-              <DarkMode>
-                <Switch id='remember-login' colorScheme='brand' me='10px' />
-              </DarkMode>
-              <FormLabel
-                htmlFor='remember-login'
-                mb='0'
-                ms='1'
-                fontWeight='normal'
-                color='white'>
-                Remember me
-              </FormLabel>
-            </FormControl>
             <Button
               variant='brand'
               fontSize='10px'
@@ -207,3 +194,4 @@ function SignIn() {
 }
 
 export default SignIn;
+
