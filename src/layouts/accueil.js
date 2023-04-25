@@ -1,8 +1,7 @@
 // chakra imports
 import { Box, ChakraProvider, Portal } from "@chakra-ui/react";
 import Footer from "components/Footer/Footer.js";
-// core components
-import AuthNavbar from "components/Navbars/AuthNavbar.js";
+ 
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
@@ -68,7 +67,7 @@ export default function Pages(props) {
       if (prop.category === "account") {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/auth") {
+      if (prop.layout === "/accueil") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -96,7 +95,7 @@ export default function Pages(props) {
           <Box ref={wrapper} w='100%'>
             <Switch>
               {getRoutes(routes)}
-              <Redirect from='/auth' to='/auth/signin' />
+              <Redirect from='/accueil' to='/accueil/test' />
             </Switch>
           </Box>
         </Box>

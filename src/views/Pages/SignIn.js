@@ -14,7 +14,7 @@ import {
   Text,
   DarkMode,
 } from "@chakra-ui/react";
-
+import { NavLink } from "react-router-dom";
 // Assets
 import signInImage from "assets/img/signInImage.jpg";
 
@@ -114,6 +114,7 @@ function SignIn() {
                 />
               </GradientBorder>
             </FormControl>
+            <NavLink to="/accueil/test">
             <Button
               variant='brand'
               fontSize='10px'
@@ -125,7 +126,7 @@ function SignIn() {
               mt='20px'>
               SIGN IN
             </Button>
-
+            </NavLink>
             <Flex
               flexDirection='column'
               justifyContent='center'

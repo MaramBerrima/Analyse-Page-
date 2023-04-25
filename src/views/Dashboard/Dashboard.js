@@ -52,7 +52,8 @@ import IconBox from 'components/Icons/IconBox';
 import { CartIcon, DocumentIcon, GlobeIcon, RocketIcon, StatsIcon, WalletIcon } from 'components/Icons/Icons.js';
 import DashboardTableRow from 'components/Tables/DashboardTableRow';
 import TimelineRow from 'components/Tables/TimelineRow';
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { BiHappy } from 'react-icons/bi';
 import { IoCheckmarkDoneCircleSharp, IoEllipsisHorizontal } from 'react-icons/io5';
@@ -64,18 +65,263 @@ import {
 	lineChartOptionsDashboard
 } from 'variables/charts';
 import { dashboardTableData, timelineData } from 'variables/general';
-
+import { useLocation  } from 'react-router-dom'
 export default function Dashboard() {
+	const [obj, setObj] = React.useState([])
+
+	const [url, setUrl] = React.useState("")
+	const search = useLocation().search
+    const searchParams = new URLSearchParams(search)
+
+	// const [speedScore, setSpeedScore] = React.useState('')
+	// const [loadTime, setLoadTime] = React.useState('')
+	// const [pageSize, setPageSize] = React.useState('')
+	// const [opportunities, setOpportunities] = React.useState('')
+	// const [imageOptimization, setImageOptimization] = React.useState('')
+	// const [scriptOptimization, setScriptOptimization] = React.useState('')
+	// const [performanceDiagnostics, setPerformanceDiagnostics] = React.useState('')
+
+	// const [interactiveTime, setInteractiveTime] = React.useState('')
+	// const [cachingSuggestions, setCachingSuggestions] = React.useState('')
+	// const [userExperience, setUserExperience] = React.useState('')
+	// const [browserCompatibility, setBrowserCompatibility] = React.useState('')
+	// const [codeAnalysis, setCodeAnalysis] = React.useState('')
+
+	const [firstContentfulPaint, setFirstContentfulPaint] = React.useState('')
+	const [speedIndex, setSpeedIndex] = React.useState('')
+	const [totalBlockingTime, setTotalBlockingTime] = React.useState('')
+	const [largestContentfulPaint, setLargestContentfulPaint] = React.useState('')
+	const [cumulativeLayoutShift, setCumulativeLayoutShift] = React.useState('')
+
+ 
+
+	const [error, setError] = React.useState('')
+
+	const handleSubmit = async () => { 
+		try {
+		  const response = await axios.get(
+			`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${searchParams.get('testUrl')}&key=AIzaSyCaSJ8Jzr6OZasuUnn-g7_hqH9vuphV4Xk`
+		  ); 
+		 const data = response.data; 
+		
+		 setSpeedScore( data.lighthouseResult.categories.performance.score);
+		 setLoadTime((data.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.category === "FAST") ? data.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.percentile / 1000 : "N/A");
+		 setPageSize( (data.loadingExperience.metrics.TOTAL_BYTES.category === "FAST") ? Math.round(data.loadingExperience.metrics.TOTAL_BYTES.percentile / 1024) : "N/A");
+		 setOpportunities( data.lighthouseResult.audits["opportunities"].score);
+		 setImageOptimization( Math.round(data.lighthouseResult.audits["uses-optimized-images"].score * 100));
+		 setScriptOptimization( Math.round(data.lighthouseResult.audits["uses-text-compression"].score * 100));
+		 setPerformanceDiagnostics( data.lighthouseResult.categories.performance.auditRefs[0].result.description);
+
+		 setInteractiveTime(data.lighthouseResult.audits.interactive.displayValue)
+		 setCachingSuggestions(data.formattedResults.ruleResults.LeverageBrowserCaching.urlBlocks[0].header.args[0].value)
+		 setUserExperience(data.loadingExperience.metrics)
+		 setBrowserCompatibility(data.lighthouseResult.categories.browserCompatibility)
+		 setCodeAnalysis(data.lighthouseResult.audits['script-treemap-data'].description)
+	  
+		} catch (err) {
+		  setError(err.message);
+		  console.log("tttttttttttttttttttttttttttttttt  err ",err);
+		} 
+	  };
+
+	  const x = async ()=>{
+		try{
+
+ 
+			console.log("vvvvvvvvvvv")
+ const response = await axios.get(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${searchParams.get('testUrl')}&key=AIzaSyCaSJ8Jzr6OZasuUnn-g7_hqH9vuphV4Xk`);
+   
+// setAnalysisResults(response.data.lighthouseResult);
+
+
+// // // setFirstContentfulPaint(response.data.lighthouseResult.audits["first-contentful-paint"].displayValue )
+// // // setSpeedIndex(response.data.lighthouseResult.audits["speed-index"].displayValue )
+// // // setTotalBlockingTime(response.data.lighthouseResult.audits["total-blocking-time"].displayValue )
+// // // setLargestContentfulPaint (response.data.lighthouseResult.audits["largest-contentful-paint"].displayValue )
+// // // setCumulativeLayoutShift (response.data.lighthouseResult.audits["cumulative-layout-shift"].displayValue )
+ 
+const lighthouseMetrics = {
+	'First Contentful Paint Score': response.data.lighthouseResult.audits['first-contentful-paint'].score,
+	'First Contentful Paint Value': response.data.lighthouseResult.audits['first-contentful-paint'].displayValue,
+
+	'Speed Index Score': response.data.lighthouseResult.audits['speed-index'].score,
+	'Speed Index Value': response.data.lighthouseResult.audits['speed-index'].displayValue,
+
+	'Time To Interactive Score': response.data.lighthouseResult.audits['interactive'].score,
+	'Time To Interactive Value': response.data.lighthouseResult.audits['interactive'].displayValue,
+
+	'First Meaningful Paint Score': response.data.lighthouseResult.audits['first-meaningful-paint'].score,
+	'First Meaningful Paint Value': response.data.lighthouseResult.audits['first-meaningful-paint'].displayValue,
+
+	"CUMULATIVE_LAYOUT_SHIFT_SCORE": response.data.loadingExperience.metrics['CUMULATIVE_LAYOUT_SHIFT_SCORE'].category,
+
+	"EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT": response.data.loadingExperience.metrics['EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT'].category,
+	"EXPERIMENTAL_TIME_TO_FIRST_BYTE": response.data.loadingExperience.metrics['EXPERIMENTAL_TIME_TO_FIRST_BYTE'].category,
+	"FIRST_CONTENTFUL_PAINT_MS": response.data.loadingExperience.metrics['FIRST_CONTENTFUL_PAINT_MS'].category,
+	"FIRST_INPUT_DELAY_MS": response.data.loadingExperience.metrics['FIRST_INPUT_DELAY_MS'].category,
+	"LARGEST_CONTENTFUL_PAINT_MS": response.data.loadingExperience.metrics['LARGEST_CONTENTFUL_PAINT_MS'].category,
+	"OVERALL_CATEGORY ": response.data.loadingExperience.overall_category,
+	
+	// 'First CPU Idle': json.lighthouseResult.audits['first-cpu-idle'],
+	// 'Estimated Input Latency': json.lighthouseResult.audits['estimated-input-latency']
+  };
+  const myMap = new Map(Object.entries(lighthouseMetrics));
+  setObj(Array.from(myMap) )
+  console.log("AAAAAAAAAA =======   ",lighthouseMetrics)
+
+
+	// 	const json = response.data 
+    //   const cruxMetrics = {
+    //    "First Contentful Paint": response.data.loadingExperience.metrics,
+    //    "First Input Delay": response.data.loadingExperience.metrics
+    //   };   
+    //   const lighthouseMetrics = {
+    //     'First Contentful Paint': response.data.lighthouseResult.audits['first-contentful-paint'],
+    //     'Speed Index': response.data.lighthouseResult.audits['speed-index'],
+    //     'Time To Interactive': response.data.lighthouseResult.audits['interactive'],
+    //     'First Meaningful Paint': response.data.lighthouseResult.audits['first-meaningful-paint'],
+    //     'First CPU Idle': response.data.lighthouseResult.audits['first-cpu-idle'],
+    //     'Estimated Input Latency': response.data.lighthouseResult.audits['estimated-input-latency']
+    //   }; 
+	//   console.log("vvvvvvvvvvv cruxMetrics == ",cruxMetrics)
+	//   console.log("vvvvvvvvvvv lighthouseMetrics == ",lighthouseMetrics)
+	//   setSpeedScore( response.data.lighthouseResult.categories.performance.score);
+	//   setLoadTime((response.data.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.category === "FAST") ? response.data.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.percentile / 1000 : "N/A");
+	//   setPageSize( (response.data.loadingExperience.metrics.TOTAL_BYTES.category === "FAST") ? Math.round(response.data.loadingExperience.metrics.TOTAL_BYTES.percentile / 1024) : "N/A");
+	//   setOpportunities( response.data.lighthouseResult.audits["opportunities"].score);
+	//   setImageOptimization( Math.round(response.data.lighthouseResult.audits["uses-optimized-images"].score * 100));
+	//   setScriptOptimization( Math.round(response.data.lighthouseResult.audits["uses-text-compression"].score * 100));
+	//   setPerformanceDiagnostics( response.data.lighthouseResult.categories.performance.auditRefs[0].result.description);
+
+	//   setInteractiveTime(response.data.lighthouseResult.audits.interactive.displayValue)
+	//   setCachingSuggestions(response.data.formattedResults.ruleResults.LeverageBrowserCaching.urlBlocks[0].header.args[0].value)
+	//   setUserExperience(response.data.loadingExperience.metrics)
+	//   setBrowserCompatibility(response.data.lighthouseResult.categories.browserCompatibility)
+	//   setCodeAnalysis(response.data.lighthouseResult.audits['script-treemap-data'].description)
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+
+
+
+		}catch(err){
+			console.log("wwwwwwwwwww  err ",err);
+		}
+	  }
+
+	  useEffect(()=>{
+		//handleSubmit()
+		x()
+	  },[])
+
+
+// 	  const fetch = require('node-fetch');
+
+// function setUpQuery() {
+//   const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+//   const parameters = {
+//     url: encodeURIComponent(searchParams.get('testUrl'))
+//   };
+//   let query = api;
+//   for (key in parameters) {
+//     query += key=parameters[key];
+//   }
+//   return query;
+// }
+
+ 
+//   auditMetrics: async (req, res, next) => {
+//     try {
+//       const url = setUpQuery();
+//       const response = await fetch(url);
+//       const json = await response.json();
+
+//       const lighthouseMetrics = {
+//         'First Contentful Paint Score': json.lighthouseResult.audits['first-contentful-paint'].score,
+//         'First Contentful Paint Value': json.lighthouseResult.audits['first-contentful-paint'].displayValue,
+
+//         'Speed Index Score': json.lighthouseResult.audits['speed-index'].score,
+//         'Speed Index Value': json.lighthouseResult.audits['speed-index'].displayValue,
+
+//         'Time To Interactive Score': json.lighthouseResult.audits['interactive'].score,
+//         'Time To Interactive Value': json.lighthouseResult.audits['interactive'].displayValue,
+
+//         'First Meaningful Paint Score': json.lighthouseResult.audits['first-meaningful-paint'].score,
+//         'First Meaningful Paint Value': json.lighthouseResult.audits['first-meaningful-paint'].displayValue,
+
+//         "CUMULATIVE_LAYOUT_SHIFT_SCORE": json.loadingExperience.metrics['CUMULATIVE_LAYOUT_SHIFT_SCORE'].category,
+
+//         "EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT": json.loadingExperience.metrics['EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT'].category,
+//         "EXPERIMENTAL_TIME_TO_FIRST_BYTE": json.loadingExperience.metrics['EXPERIMENTAL_TIME_TO_FIRST_BYTE'].category,
+//         "FIRST_CONTENTFUL_PAINT_MS": json.loadingExperience.metrics['FIRST_CONTENTFUL_PAINT_MS'].category,
+//         "FIRST_INPUT_DELAY_MS": json.loadingExperience.metrics['FIRST_INPUT_DELAY_MS'].category,
+//         "LARGEST_CONTENTFUL_PAINT_MS": json.loadingExperience.metrics['LARGEST_CONTENTFUL_PAINT_MS'].category,
+//         "OVERALL_CATEGORY ": json.loadingExperience.overall_category,
+        
+//         // 'First CPU Idle': json.lighthouseResult.audits['first-cpu-idle'],
+//         // 'Estimated Input Latency': json.lighthouseResult.audits['estimated-input-latency']
+//       };
+  
+//       res.json({
+//         id: json.id,
+//         lighthouseMetrics,
+//       });
+//     } catch (error) {
+//       res.status(500).json({ error: error.message });
+//     }
+//   }
+ 
+	  
 	return (
 		<Flex flexDirection='column' pt={{ base: '120px', md: '75px' }}>
-			<SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px'>
-				{/* MiniStatistics Card */}
-				<Card>
+			<SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px'> 
+			 
+				{
+			obj.map((el)=>
+<Card>
 					<CardBody>
 						<Flex flexDirection='row' align='center' justify='center' w='100%'>
 							<Stat me='auto'>
 								<StatLabel fontSize='sm' color='gray.400' fontWeight='bold' pb='2px'>
-									Today's Money
+								{el[0]}
+
+								</StatLabel>
+								<Flex>
+									<StatNumber fontSize='lg' color='#fff'>
+										 
+									</StatNumber>
+									<StatHelpText
+										alignSelf='flex-end'
+										justifySelf='flex-end'
+										m='0px'
+										color='green.400'
+										fontWeight='bold'
+										ps='3px'
+										fontSize='md'>
+										{el[1]} 
+									</StatHelpText>
+								</Flex>
+							</Stat>
+							<IconBox as='box' h={'45px'} w={'45px'} bg='brand.200'>
+								<WalletIcon h={'24px'} w={'24px'} color='#fff' />
+							</IconBox>
+						</Flex>
+					</CardBody>
+				</Card>
+			)	
+			}
+				{/* <Card>
+					<CardBody>
+						<Flex flexDirection='row' align='center' justify='center' w='100%'>
+							<Stat me='auto'>
+								<StatLabel fontSize='sm' color='gray.400' fontWeight='bold' pb='2px'>
+								First Content Ful Paint
+
 								</StatLabel>
 								<Flex>
 									<StatNumber fontSize='lg' color='#fff'>
@@ -89,7 +335,7 @@ export default function Dashboard() {
 										fontWeight='bold'
 										ps='3px'
 										fontSize='md'>
-										+55%
+										{firstContentfulPaint}
 									</StatHelpText>
 								</Flex>
 							</Stat>
@@ -99,13 +345,14 @@ export default function Dashboard() {
 						</Flex>
 					</CardBody>
 				</Card>
-				{/* MiniStatistics Card */}
+			 
 				<Card minH='83px'>
 					<CardBody>
 						<Flex flexDirection='row' align='center' justify='center' w='100%'>
 							<Stat me='auto'>
 								<StatLabel fontSize='sm' color='gray.400' fontWeight='bold' pb='2px'>
-									Today's Users
+							 
+Speed Index 
 								</StatLabel>
 								<Flex>
 									<StatNumber fontSize='lg' color='#fff'>
@@ -119,7 +366,7 @@ export default function Dashboard() {
 										fontWeight='bold'
 										ps='3px'
 										fontSize='md'>
-										+5%
+										{speedIndex}
 									</StatHelpText>
 								</Flex>
 							</Stat>
@@ -129,13 +376,14 @@ export default function Dashboard() {
 						</Flex>
 					</CardBody>
 				</Card>
-				{/* MiniStatistics Card */}
+			 
 				<Card>
 					<CardBody>
 						<Flex flexDirection='row' align='center' justify='center' w='100%'>
 							<Stat>
 								<StatLabel fontSize='sm' color='gray.400' fontWeight='bold' pb='2px'>
-									New Clients
+	 
+Total Blocking Time 
 								</StatLabel>
 								<Flex>
 									<StatNumber fontSize='lg' color='#fff'>
@@ -149,7 +397,7 @@ export default function Dashboard() {
 										fontWeight='bold'
 										ps='3px'
 										fontSize='md'>
-										-14%
+										{totalBlockingTime}
 									</StatHelpText>
 								</Flex>
 							</Stat>
@@ -160,13 +408,14 @@ export default function Dashboard() {
 						</Flex>
 					</CardBody>
 				</Card>
-				{/* MiniStatistics Card */}
+			 
 				<Card>
 					<CardBody>
 						<Flex flexDirection='row' align='center' justify='center' w='100%'>
 							<Stat me='auto'>
 								<StatLabel fontSize='sm' color='gray.400' fontWeight='bold' pb='2px'>
-									Total Sales
+	 
+Largest Content Ful Paint 
 								</StatLabel>
 								<Flex>
 									<StatNumber fontSize='lg' color='#fff' fontWeight='bold'>
@@ -180,7 +429,7 @@ export default function Dashboard() {
 										fontWeight='bold'
 										ps='3px'
 										fontSize='md'>
-										+8%
+										{largestContentfulPaint}
 									</StatHelpText>
 								</Flex>
 							</Stat>
@@ -190,6 +439,40 @@ export default function Dashboard() {
 						</Flex>
 					</CardBody>
 				</Card>
+				<Card>
+					<CardBody>
+						<Flex flexDirection='row' align='center' justify='center' w='100%'>
+							<Stat me='auto'>
+								<StatLabel fontSize='sm' color='gray.400' fontWeight='bold' pb='2px'>
+								 
+Cumulative Layout Shift
+								</StatLabel>
+								<Flex>
+									<StatNumber fontSize='lg' color='#fff' fontWeight='bold'>
+										*****
+									</StatNumber>
+									<StatHelpText
+										alignSelf='flex-end'
+										justifySelf='flex-end'
+										m='0px'
+										color='green.400'
+										fontWeight='bold'
+										ps='3px'
+										fontSize='md'>
+										{cumulativeLayoutShift}
+									</StatHelpText>
+								</Flex>
+							</Stat>
+							<IconBox as='box' h={'45px'} w={'45px'} bg='brand.200'>
+								<CartIcon h={'24px'} w={'24px'} color='#fff' />
+							</IconBox>
+						</Flex>
+					</CardBody>
+				</Card> */}
+
+ 
+
+				 
 			</SimpleGrid>
 			<Grid templateColumns={{ sm: '1fr', md: '1fr 1fr', '2xl': '2fr 1.2fr 1.5fr' }} my='26px' gap='18px'>
 				{/* Welcome Card */}

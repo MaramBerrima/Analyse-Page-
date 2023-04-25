@@ -1,8 +1,7 @@
 // chakra imports
 import { Box, ChakraProvider, Portal } from "@chakra-ui/react";
 import Footer from "components/Footer/Footer.js";
-// core components
-import AuthNavbar from "components/Navbars/AuthNavbar.js";
+ 
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
@@ -68,7 +67,7 @@ export default function Pages(props) {
       if (prop.category === "account") {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/auth") {
+      if (prop.layout === "/home") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -96,7 +95,7 @@ export default function Pages(props) {
           <Box ref={wrapper} w='100%'>
             <Switch>
               {getRoutes(routes)}
-              <Redirect from='/auth' to='/auth/signin' />
+              <Redirect from='/home' to='/home/test' />
             </Switch>
           </Box>
         </Box>
@@ -104,3 +103,13 @@ export default function Pages(props) {
     </ChakraProvider>
   );
 }
+
+
+    // "@emailjs/browser": "^3.10.0", ,,,,,,,,,,,,
+    // "@react-three/drei": "^9.56.28",
+    // "@react-three/fiber": "^8.11.5",
+    // "@react-three/postprocessing": "^2.7.0",
+    // "prop-types": "^15.8.1",
+    // "react-simple-maps": "^3.0.0",,,,,,,,,,,,,,,,,,,,,,,,
+    // "styled-components": "^5.3.6",,,,,,,,,,,,,,,,
+    // "three": "^0.150.1"

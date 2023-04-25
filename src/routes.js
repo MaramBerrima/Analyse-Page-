@@ -1,7 +1,9 @@
 import Dashboard from "views/Dashboard/Dashboard.js";
+import Accueil from "views/Pages/accueil.js";
 import SignIn from "views/Pages/SignIn.js";
 import SignUp from "views/Pages/SignUp.js";
-
+import Home from "views/Pages/home";
+import Comparisant from "views/Pages/comparisant";
 import {
   HomeIcon,
   DocumentIcon,
@@ -16,7 +18,29 @@ var dashRoutes = [
     component: Dashboard,
     layout: "/admin",
   },
- 
+  {
+    path: "/test",
+    name: "Test",
+    icon: <HomeIcon color='inherit' />,
+    component: Accueil,
+    layout: "/accueil",
+  },
+
+  {
+    path: "/test",
+    name: "Home",
+    icon: <HomeIcon color='inherit' />,
+    component: Home,
+    layout: "/home",
+  },
+
+  {
+    path: "/test",
+    name: "Home",
+    icon: <HomeIcon color='inherit' />,
+    component: Comparisant,
+    layout: "/comparisant",
+  },
  
   {
     name: "ACCOUNT PAGES",
