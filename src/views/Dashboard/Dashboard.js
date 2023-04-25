@@ -160,7 +160,7 @@ const lighthouseMetrics = {
 	"FIRST_CONTENTFUL_PAINT_MS": response?.data?.loadingExperience?.metrics?.['FIRST_CONTENTFUL_PAINT_MS']?.category ?? "N/A",
 	"FIRST_INPUT_DELAY_MS": response?.data?.loadingExperience?.metrics?.['FIRST_INPUT_DELAY_MS']?.category ?? "N/A",
 	"LARGEST_CONTENTFUL_PAINT_MS": response?.data?.loadingExperience?.metrics?.['LARGEST_CONTENTFUL_PAINT_MS']?.category ?? "N/A",
-	"OVERALL_CATEGORY ": response?.data?.loadingExperience?.overall_category,
+	"OVERALL_CATEGORY ": response?.data?.loadingExperience?.overall_category ?? "N/A",
 	
 	// 'First CPU Idle': json.lighthouseResult.audits['first-cpu-idle'],
 	// 'Estimated Input Latency': json.lighthouseResult.audits['estimated-input-latency']
