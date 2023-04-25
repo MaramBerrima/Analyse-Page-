@@ -141,26 +141,26 @@ export default function Dashboard() {
 // // // setCumulativeLayoutShift (response.data.lighthouseResult.audits["cumulative-layout-shift"].displayValue )
  
 const lighthouseMetrics = {
-	'First Contentful Paint Score': response.data.lighthouseResult.audits['first-contentful-paint'].score,
-	'First Contentful Paint Value': response.data.lighthouseResult.audits['first-contentful-paint'].displayValue,
+	'First Contentful Paint Score': response?.data?.lighthouseResult?.audits?.['first-contentful-paint']?.score ?? "N/A",
+	'First Contentful Paint Value': response?.data?.lighthouseResult?.audits?.['first-contentful-paint']?.displayValue ?? "N/A" ,
 
-	'Speed Index Score': response.data.lighthouseResult.audits['speed-index'].score,
-	'Speed Index Value': response.data.lighthouseResult.audits['speed-index'].displayValue,
+	'Speed Index Score': response?.data?.lighthouseResult?.audits?.['speed-index']?.score ?? "N/A",
+	'Speed Index Value': response?.data?.lighthouseResult?.audits?.['speed-index']?.displayValue ?? "N/A",
 
-	'Time To Interactive Score': response.data.lighthouseResult.audits['interactive'].score,
-	'Time To Interactive Value': response.data.lighthouseResult.audits['interactive'].displayValue,
+	'Time To Interactive Score': response?.data?.lighthouseResult?.audits?.['interactive']?.score ?? "N/A",
+	'Time To Interactive Value': response?.data?.lighthouseResult?.audits?.['interactive']?.displayValue ?? "N/A",
 
-	'First Meaningful Paint Score': response.data.lighthouseResult.audits['first-meaningful-paint'].score,
-	'First Meaningful Paint Value': response.data.lighthouseResult.audits['first-meaningful-paint'].displayValue,
+	'First Meaningful Paint Score': response?.data?.lighthouseResult?.audits?.['first-meaningful-paint']?.score ?? "N/A",
+	'First Meaningful Paint Value': response?.data?.lighthouseResult?.audits?.['first-meaningful-paint']?.displayValue ?? "N/A",
 
-	"CUMULATIVE_LAYOUT_SHIFT_SCORE": response.data.loadingExperience.metrics['CUMULATIVE_LAYOUT_SHIFT_SCORE'].category,
+	"CUMULATIVE_LAYOUT_SHIFT_SCORE": response?.data?.loadingExperience?.metrics?.['CUMULATIVE_LAYOUT_SHIFT_SCORE']?.category ?? "N/A",
 
-	"EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT": response.data.loadingExperience.metrics['EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT'].category,
-	"EXPERIMENTAL_TIME_TO_FIRST_BYTE": response.data.loadingExperience.metrics['EXPERIMENTAL_TIME_TO_FIRST_BYTE'].category,
-	"FIRST_CONTENTFUL_PAINT_MS": response.data.loadingExperience.metrics['FIRST_CONTENTFUL_PAINT_MS'].category,
-	"FIRST_INPUT_DELAY_MS": response.data.loadingExperience.metrics['FIRST_INPUT_DELAY_MS'].category,
-	"LARGEST_CONTENTFUL_PAINT_MS": response.data.loadingExperience.metrics['LARGEST_CONTENTFUL_PAINT_MS'].category,
-	"OVERALL_CATEGORY ": response.data.loadingExperience.overall_category,
+	"EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT": response?.data?.loadingExperience?.metrics?.['EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT']?.category ?? "N/A",
+	"EXPERIMENTAL_TIME_TO_FIRST_BYTE": response?.data?.loadingExperience?.metrics?.['EXPERIMENTAL_TIME_TO_FIRST_BYTE']?.category ?? "N/A",
+	"FIRST_CONTENTFUL_PAINT_MS": response?.data?.loadingExperience?.metrics?.['FIRST_CONTENTFUL_PAINT_MS']?.category ?? "N/A",
+	"FIRST_INPUT_DELAY_MS": response?.data?.loadingExperience?.metrics?.['FIRST_INPUT_DELAY_MS']?.category ?? "N/A",
+	"LARGEST_CONTENTFUL_PAINT_MS": response?.data?.loadingExperience?.metrics?.['LARGEST_CONTENTFUL_PAINT_MS']?.category ?? "N/A",
+	"OVERALL_CATEGORY ": response?.data?.loadingExperience?.overall_category,
 	
 	// 'First CPU Idle': json.lighthouseResult.audits['first-cpu-idle'],
 	// 'Estimated Input Latency': json.lighthouseResult.audits['estimated-input-latency']
