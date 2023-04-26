@@ -45,8 +45,8 @@ function Sidebar(props) {
     let activeColor = "white";
     let inactiveColor = "white";
     let sidebarActiveShadow = "none";
-
-    return routes.map((prop, key) => {
+console.log("routes  ",routes)
+    return routes.filter((el)=>el.name != "Test" && el.layout  != "/comparisant").map((prop, key) => {
       if (prop.redirect) {
         return null;
       }
